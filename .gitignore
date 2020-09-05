@@ -1,3 +1,4 @@
 secret.txt
 *.json
 node_modules/
+.idea/
