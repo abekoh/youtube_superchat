@@ -3,5 +3,5 @@ export interface OutputData {
 }
 
 export interface IOutputUsecase {
-  handle(data: OutputData)
+  handle(data: OutputData): void
 }

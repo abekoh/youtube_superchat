@@ -1,6 +1,6 @@
 #!/bin/bash
 # YOUTUBE_API_TOKENにアクセストークンつけておく
-VIDEO_ID="XxqwxFgJa0w"
+VIDEO_ID="gQdHNT8bQ4M"
 
 LIVE_CHAT_ID=`curl -X GET -H "Authorization:Bearer ${YOUTUBE_API_TOKEN}" "https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${VIDEO_ID}" | jq -r .items[0].liveStreamingDetails.activeLiveChatId`
 

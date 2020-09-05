@@ -1,5 +1,9 @@
-export type InputCommand = 'Start' | 'Stop'
+export type InputCommandMode = 'Register' | 'Start' | 'Stop'
+export interface InputCommand {
+  mode: InputCommandMode
+  videoId?: string
+}
 
 export interface IInputUseCase {
-  handle(command: InputCommand)
+  handle(command: InputCommand): Promise<void>
 }

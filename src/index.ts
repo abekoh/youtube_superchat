@@ -1,7 +1,8 @@
 import { ShellController } from './controller/ShellController'
 
-export const run = () => {
+export const run = async () => {
   const controller = new ShellController()
-  controller.run()
+  await controller.run()
 }
+
 run()
