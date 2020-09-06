@@ -4,6 +4,9 @@ import {
   LiveChatMessage,
   LiveChatMessageRequest,
 } from './IYouTubeClient'
+import * as Log4js from 'log4js'
+
+const logger = Log4js.getLogger()
 
 export class Subscriber extends EventEmitter {
   private liveChatId?: string
@@ -27,6 +30,7 @@ export class Subscriber extends EventEmitter {
 
   public async start(): Promise<boolean> {
     if (!this.liveChatId) {
+      logger.error('liveChatId is not registered.')
       return false
     }
     this.observer = setInterval(

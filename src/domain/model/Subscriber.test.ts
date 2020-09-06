@@ -1,4 +1,8 @@
-import { IYouTubeClient, LiveChatMessageReponse, LiveChatMessageRequest } from './IYouTubeClient'
+import {
+  IYouTubeClient,
+  LiveChatMessageReponse,
+  LiveChatMessageRequest,
+} from './IYouTubeClient'
 import { Subscriber } from './Subscriber'
 
 class SampleYouTubeClient implements IYouTubeClient {
@@ -7,6 +11,7 @@ class SampleYouTubeClient implements IYouTubeClient {
   ): Promise<LiveChatMessageReponse> {
     return { messages: [], pageToken: '' }
   }
+
   async getLiveChatIdFromVideoId(videoId: string): Promise<string | null> {
     return ''
   }
@@ -33,3 +38,5 @@ describe('register', () => {
     expect(actual).toBe(false)
   })
 })
+
+describe('register', () => {})
