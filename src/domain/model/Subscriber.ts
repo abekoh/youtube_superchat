@@ -10,9 +10,10 @@ const logger = Log4js.getLogger()
 
 export class Subscriber extends EventEmitter {
   private liveChatId?: string
-  private pageToken: string | null = null
+  private pageToken?: string
   private intervalMilliSec: number = 1000
   private observer?: NodeJS.Timeout
+
   constructor(private youTubeClient: IYouTubeClient) {
     super()
   }
@@ -57,7 +58,7 @@ export class Subscriber extends EventEmitter {
       pageToken: this.pageToken,
     }
     const response = await this.youTubeClient.fetchComments(request)
-    this.pageToken = response.pageToken
+    this.pageToken = response.pageToken || undefined
     response.messages.forEach((v: LiveChatMessage) => {
       this.emit('consume', v)
     })

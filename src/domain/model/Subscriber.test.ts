@@ -1,6 +1,6 @@
 import {
   IYouTubeClient,
-  LiveChatMessageReponse,
+  LiveChatMessageResponse,
   LiveChatMessageRequest,
 } from './IYouTubeClient'
 import { Subscriber } from './Subscriber'
@@ -8,7 +8,7 @@ import { Subscriber } from './Subscriber'
 class SampleYouTubeClient implements IYouTubeClient {
   async fetchComments(
     request: LiveChatMessageRequest
-  ): Promise<LiveChatMessageReponse> {
+  ): Promise<LiveChatMessageResponse> {
     return { messages: [], pageToken: '' }
   }
 
