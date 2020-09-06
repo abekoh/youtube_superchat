@@ -36,10 +36,7 @@ export class Subscriber extends EventEmitter {
       logger.error('liveChatId is not registered.')
       return false
     }
-    this.observer = setInterval(
-      () => this.fetchChatMessages(),
-      this.intervalMilliSec
-    )
+    this.setObserver()
     this.emit('start')
     return true
   }
@@ -64,10 +61,23 @@ export class Subscriber extends EventEmitter {
     logger.debug(`response=${JSON.stringify(response)}`)
     this.pageToken = response.pageToken || undefined
     this.intervalMilliSec = response.pollingIntervalMillis || 10000
-    logger.debug(`pageToken=${this.pageToken}, intervalMilliSec=${this.intervalMilliSec}`)
+    this.setObserver()
+    logger.debug(
+      `pageToken=${this.pageToken}, intervalMilliSec=${this.intervalMilliSec}`
+    )
     response.messages.forEach((v: LiveChatMessage) => {
       this.emit('consume', v)
     })
+  }
+
+  private setObserver() {
+    if (this.observer) {
+      clearInterval(this.observer)
+    }
+    this.observer = setInterval(
+      () => this.fetchChatMessages(),
+      this.intervalMilliSec
+    )
   }
 
   public on(
