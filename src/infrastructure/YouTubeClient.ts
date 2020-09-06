@@ -20,10 +20,10 @@ export type RawLiveChatMessageType =
 export class YouTubeClient implements IYouTubeClient {
   private youtube: youtube_v3.Youtube
 
-  constructor() {
+  constructor(youTubeApiKey: string) {
     this.youtube = google.youtube({
       version: 'v3',
-      auth: process.env.YOUTUBE_API_KEY,
+      auth: youTubeApiKey,
     })
   }
 

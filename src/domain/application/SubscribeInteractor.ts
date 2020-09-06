@@ -2,11 +2,12 @@ import { IInputUseCase, InputCommand } from '../../usecase/IInputUseCase'
 import { IOutputUsecase } from '../../usecase/IOutputUseCase'
 import { Subscriber } from '../model/Subscriber'
 import { YouTubeClient } from '../../infrastructure/YouTubeClient'
+import { IYouTubeClient } from '../model/IYouTubeClient'
 
 export class SubscribeInteractor implements IInputUseCase {
   private subscriber: Subscriber
-  constructor(private outputUseCase: IOutputUsecase) {
-    this.subscriber = new Subscriber(new YouTubeClient())
+  constructor(private outputUseCase: IOutputUsecase, private youTubeClient: IYouTubeClient) {
+    this.subscriber = new Subscriber(youTubeClient)
     this.subscriber.on('consume', (liveChatMessage) => {
       outputUseCase.handle({
         message: liveChatMessage.message,
