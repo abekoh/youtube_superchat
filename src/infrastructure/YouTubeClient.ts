@@ -3,12 +3,18 @@ import {
   IYouTubeClient,
   LiveChatMessage,
   LiveChatMessageResponse,
-  LiveChatMessageRequest
+  LiveChatMessageRequest,
 } from '../domain/model/IYouTubeClient'
+import * as Log4js from 'log4js'
+
+const logger = Log4js.getLogger()
 
 // https://developers.google.com/youtube/v3/live/docs/liveChatMessages#snippet.type
 // TODO: 終了イベント
-export type RawLiveChatMessageType = 'textMessageEvent' | 'superChatEvent' | 'superStickerEvent'
+export type RawLiveChatMessageType =
+  | 'textMessageEvent'
+  | 'superChatEvent'
+  | 'superStickerEvent'
 
 // sample: https://github.com/ChapC/rerun/blob/c6a4f67126945878c068e9544798346372842985/src/YoutubeAPI.ts
 export class YouTubeClient implements IYouTubeClient {
@@ -17,17 +23,18 @@ export class YouTubeClient implements IYouTubeClient {
   constructor() {
     this.youtube = google.youtube({
       version: 'v3',
-      auth: ''
+      auth: process.env.YOUTUBE_API_KEY,
     })
   }
 
   public getLiveChatIdFromVideoId(videoId: string): Promise<string | null> {
+    logger.debug('start getLiveChatIdFromVideoId')
     return new Promise((resolve, reject) => {
       this.youtube.videos
         .list(
           {
             id: [videoId],
-            part: ['liveStreamingDetails']
+            part: ['liveStreamingDetails'],
           },
           {}
         )
@@ -65,6 +72,7 @@ export class YouTubeClient implements IYouTubeClient {
   public fetchComments(
     request: LiveChatMessageRequest
   ): Promise<LiveChatMessageResponse> {
+    logger.debug('start fetchComments')
     return new Promise((resolve, reject) => {
       this.youtube.liveChatMessages
         .list(
@@ -73,7 +81,7 @@ export class YouTubeClient implements IYouTubeClient {
             part: ['id', 'snippet'],
             hl: 'ja',
             pageToken: request.pageToken || undefined,
-            maxResults: request.maxResults || undefined
+            maxResults: request.maxResults || undefined,
           },
           {}
         )
@@ -89,35 +97,44 @@ export class YouTubeClient implements IYouTubeClient {
             response.data
           const messageResponse: LiveChatMessageResponse = { messages: [] }
           messageResponse.pageToken = responseData.nextPageToken || undefined
-          messageResponse.pollingIntervalMillis = responseData.pollingIntervalMillis || undefined
+          messageResponse.pollingIntervalMillis =
+            responseData.pollingIntervalMillis || undefined
           messageResponse.totalResults =
             responseData.pageInfo?.totalResults || undefined
           messageResponse.resultsPerPage =
             responseData.pageInfo?.resultsPerPage || undefined
-          if (typeof responseData.items !== 'undefined' && responseData.items.length !== 0) {
+          if (
+            typeof responseData.items !== 'undefined' &&
+            responseData.items.length !== 0
+          ) {
             const messages: LiveChatMessage[] = []
             responseData.items.forEach((item) => {
               messages.push(this.itemToLiveChatMessage(item))
             })
+            messageResponse.messages = messages
           }
           resolve(messageResponse)
         })
     })
   }
 
-  private itemToLiveChatMessage(item: youtube_v3.Schema$LiveChatMessage): LiveChatMessage {
+  private itemToLiveChatMessage(
+    item: youtube_v3.Schema$LiveChatMessage
+  ): LiveChatMessage {
     switch (item.snippet?.type as RawLiveChatMessageType) {
       case 'textMessageEvent':
         return {
           type: 'Normal',
-          message: item.snippet?.textMessageDetails?.messageText || ''
+          message: item.snippet?.textMessageDetails?.messageText || '',
         }
       case 'superChatEvent':
         return {
           type: 'SuperChat',
           message: item.snippet?.superChatDetails?.userComment || '',
-          amountMicros: item.snippet?.superChatDetails?.amountMicros || undefined,
-          amountDisplayString: item.snippet?.superChatDetails?.amountDisplayString || undefined,
+          amountMicros:
+            item.snippet?.superChatDetails?.amountMicros || undefined,
+          amountDisplayString:
+            item.snippet?.superChatDetails?.amountDisplayString || undefined,
           currency: item.snippet?.superChatDetails?.currency || undefined,
           tier: item.snippet?.superChatDetails?.tier || undefined,
         }
@@ -125,9 +142,13 @@ export class YouTubeClient implements IYouTubeClient {
         return {
           type: 'SuperSticker',
           // とりあえず代替テキスト
-          message: item.snippet?.superStickerDetails?.superStickerMetadata?.altText || '',
-          amountMicros: item.snippet?.superStickerDetails?.amountMicros || undefined,
-          amountDisplayString: item.snippet?.superStickerDetails?.amountDisplayString || undefined,
+          message:
+            item.snippet?.superStickerDetails?.superStickerMetadata?.altText ||
+            '',
+          amountMicros:
+            item.snippet?.superStickerDetails?.amountMicros || undefined,
+          amountDisplayString:
+            item.snippet?.superStickerDetails?.amountDisplayString || undefined,
           currency: item.snippet?.superStickerDetails?.currency || undefined,
           tier: item.snippet?.superStickerDetails?.tier || undefined,
         }

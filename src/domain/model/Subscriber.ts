@@ -11,7 +11,7 @@ const logger = Log4js.getLogger()
 export class Subscriber extends EventEmitter {
   private liveChatId?: string
   private pageToken?: string
-  private intervalMilliSec: number = 1000
+  private intervalMilliSec: number = 10000
   private observer?: NodeJS.Timeout
 
   constructor(private youTubeClient: IYouTubeClient) {
@@ -23,9 +23,11 @@ export class Subscriber extends EventEmitter {
       videoId
     )
     if (liveChatId === null) {
+      logger.error(`failed to get liveChatId: videoId=${videoId}`)
       return false
     }
     this.liveChatId = liveChatId
+    logger.debug(`liveChatId=${this.liveChatId}`)
     return true
   }
 
@@ -51,6 +53,7 @@ export class Subscriber extends EventEmitter {
 
   private async fetchChatMessages() {
     if (!this.liveChatId) {
+      logger.error('liveChatId is not registered.')
       return
     }
     const request: LiveChatMessageRequest = {
@@ -58,7 +61,10 @@ export class Subscriber extends EventEmitter {
       pageToken: this.pageToken,
     }
     const response = await this.youTubeClient.fetchComments(request)
+    logger.debug(`response=${JSON.stringify(response)}`)
     this.pageToken = response.pageToken || undefined
+    this.intervalMilliSec = response.pollingIntervalMillis || 10000
+    logger.debug(`pageToken=${this.pageToken}, intervalMilliSec=${this.intervalMilliSec}`)
     response.messages.forEach((v: LiveChatMessage) => {
       this.emit('consume', v)
     })
