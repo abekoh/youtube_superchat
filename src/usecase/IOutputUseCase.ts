@@ -1,5 +1,7 @@
 export interface OutputData {
-  message: string
+  sumOfAmount: string
+  currency: string
+  amountDisplayString: string
 }
 
 export interface IOutputUsecase {

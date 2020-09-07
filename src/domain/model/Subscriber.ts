@@ -1,9 +1,5 @@
 import { EventEmitter } from 'events'
-import {
-  IYouTubeClient,
-  LiveChatMessage,
-  LiveChatMessageRequest,
-} from './IYouTubeClient'
+import { IYouTubeClient, LiveChatMessage, LiveChatMessageRequest } from './IYouTubeClient'
 import * as Log4js from 'log4js'
 
 const logger = Log4js.getLogger()
@@ -65,9 +61,7 @@ export class Subscriber extends EventEmitter {
     logger.debug(
       `pageToken=${this.pageToken}, intervalMilliSec=${this.intervalMilliSec}`
     )
-    response.messages.forEach((v: LiveChatMessage) => {
-      this.emit('consume', v)
-    })
+    this.emit('consumeBatch', response.messages)
   }
 
   private setObserver() {
@@ -81,8 +75,8 @@ export class Subscriber extends EventEmitter {
   }
 
   public on(
-    event: 'consume',
-    listener: (message: LiveChatMessage) => void
+    event: 'consumeBatch',
+    listener: (messages: LiveChatMessage[]) => void
   ): this
   public on(event: 'start', listener: () => void): this
   public on(event: 'end', listener: () => void): this

@@ -6,6 +6,6 @@ const logger = Log4js.getLogger()
 
 export class ShellPresenter implements IOutputUsecase {
   public handle(data: OutputData) {
-    logger.info(`message: ${data.message}`)
+    logger.info(`${JSON.stringify(data)}`)
   }
 }

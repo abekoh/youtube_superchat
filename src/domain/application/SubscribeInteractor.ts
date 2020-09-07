@@ -1,17 +1,20 @@
 import { IInputUseCase, InputCommand } from '../../usecase/IInputUseCase'
 import { IOutputUsecase } from '../../usecase/IOutputUseCase'
 import { Subscriber } from '../model/Subscriber'
-import { YouTubeClient } from '../../infrastructure/YouTubeClient'
 import { IYouTubeClient } from '../model/IYouTubeClient'
+import { Summarizer } from '../model/Summarizer'
 
 export class SubscribeInteractor implements IInputUseCase {
   private subscriber: Subscriber
-  constructor(private outputUseCase: IOutputUsecase, private youTubeClient: IYouTubeClient) {
+  private summarizer = new Summarizer()
+  constructor(
+    private outputUseCase: IOutputUsecase,
+    private youTubeClient: IYouTubeClient
+  ) {
     this.subscriber = new Subscriber(youTubeClient)
-    this.subscriber.on('consume', (liveChatMessage) => {
-      outputUseCase.handle({
-        message: liveChatMessage.message,
-      })
+    this.subscriber.on('consumeBatch', async (liveChatMessages) => {
+      const summarizedData = await this.summarizer.summarize(liveChatMessages)
+      outputUseCase.handle(summarizedData)
     })
   }
 
