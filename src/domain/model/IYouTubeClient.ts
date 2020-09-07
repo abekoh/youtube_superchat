@@ -5,6 +5,7 @@ export type LiveChatMessageType = 'Normal' | 'SuperChat' | 'SuperSticker'
 export interface LiveChatMessage {
   type: LiveChatMessageType
   message: string
+  publishedAt: Date
   amountMicros?: string
   amountDisplayString?: string
   currency?: string

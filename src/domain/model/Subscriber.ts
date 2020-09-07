@@ -1,5 +1,9 @@
 import { EventEmitter } from 'events'
-import { IYouTubeClient, LiveChatMessage, LiveChatMessageRequest } from './IYouTubeClient'
+import {
+  IYouTubeClient,
+  LiveChatMessage,
+  LiveChatMessageRequest,
+} from './IYouTubeClient'
 import * as Log4js from 'log4js'
 
 const logger = Log4js.getLogger()
@@ -52,6 +56,7 @@ export class Subscriber extends EventEmitter {
     const request: LiveChatMessageRequest = {
       liveChatId: this.liveChatId,
       pageToken: this.pageToken,
+      maxResults: 2000,
     }
     const response = await this.youTubeClient.fetchComments(request)
     logger.debug(`response=${JSON.stringify(response)}`)
