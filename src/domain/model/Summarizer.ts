@@ -32,6 +32,7 @@ export class Summarizer {
       this.oldestPublishedAt = messages[0].publishedAt || undefined
     }
     // 最新の1件をlatestにset
+    logger.debug(messages[messages.length - 1])
     this.latestPublishedAt = messages[messages.length - 1].publishedAt || this.latestPublishedAt
     messages.forEach((message) => {
       this.allCount += 1
