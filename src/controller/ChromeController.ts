@@ -14,14 +14,14 @@ export class ChromeController {
   }
 
   public async register(videoId: string) {
-    await inputUseCase.handle({ mode: 'Register', videoId: videoId })
+    await this.inputUseCase.handle({ mode: 'Register', videoId: videoId })
   }
 
   public async start() {
-    await inputUseCase.handle({ mode: 'Start' })
+    await this.inputUseCase.handle({ mode: 'Start' })
   }
 
   public async stop() {
-    await inputUseCase.handle({ mode: 'Stop' })
+    await this.inputUseCase.handle({ mode: 'Stop' })
   }
 }
