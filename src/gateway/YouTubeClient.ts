@@ -124,6 +124,9 @@ export class YouTubeClient implements IYouTubeClient {
   private itemToLiveChatMessage(
     item: youtube_v3.Schema$LiveChatMessage
   ): LiveChatMessage | null {
+    if (!item.snippet) {
+      return null
+    }
     switch (item.snippet?.type as RawLiveChatMessageType) {
       case 'textMessageEvent':
         return {
@@ -159,6 +162,7 @@ export class YouTubeClient implements IYouTubeClient {
           tier: item.snippet?.superStickerDetails?.tier || undefined
         }
       default:
+        logger.debug(`unsupported event: ${item.snippet?.type}`)
         return null
     }
   }

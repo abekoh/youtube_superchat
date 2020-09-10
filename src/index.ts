@@ -2,7 +2,7 @@ import { ShellController } from './controller/ShellController'
 import * as Log4js from 'log4js'
 
 const logger = Log4js.getLogger()
-logger.level = 'info'
+logger.level = 'debug'
 
 export const run = async () => {
   const args = process.argv.slice(2)
