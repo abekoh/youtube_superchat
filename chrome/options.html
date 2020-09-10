@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script type="application/javascript">
+    const saveOptions = () => {
+      const apiKey = document.getElementById('apikey').value
+      chrome.storage.sync.set({ youTubeApiKey: apiKey })
+    }
+  </script>
+</head>
+<body>
+<label for="apikey">YouTube API Key:</label>
+<input type="text" id="apikey" />
+<button id="save">Save</button>
+</body>
+</html>

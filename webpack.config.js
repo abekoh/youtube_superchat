@@ -1,8 +1,8 @@
 const path = require('path')
 
 module.exports = {
-  target: 'node',
-  mode: 'development',
+  target: 'web',
+  mode: 'production',
   entry: './src/background.ts',
   output: {
     path: path.join(__dirname, 'dist'),
