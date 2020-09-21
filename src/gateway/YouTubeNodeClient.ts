@@ -17,7 +17,7 @@ export type RawLiveChatMessageType =
   | 'superStickerEvent'
 
 // sample: https://github.com/ChapC/rerun/blob/c6a4f67126945878c068e9544798346372842985/src/YoutubeAPI.ts
-export class YouTubeClient implements IYouTubeClient {
+export class YouTubeNodeClient implements IYouTubeClient {
   private youtube: youtube_v3.Youtube
 
   constructor(youTubeApiKey: string) {
