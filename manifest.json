@@ -4,15 +4,15 @@
   "description": "Summarize SuperChat(+etc) YouTube Live",
   "manifest_version": 2,
   "browser_action": {
-    "default_popup": "chrome/popup.html"
+    "default_popup": "popup.html"
   },
   "background": {
     "scripts": [
-      "dist/background.js"
+      "background.js"
     ],
     "persistent": false
   },
-  "options_page": "chrome/options.html",
+  "options_page": "options.html",
   "permissions": [
     "storage"
   ]

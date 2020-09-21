@@ -1,5 +1,5 @@
 import { SubscribeInteractor } from '../domain/application/SubscribeInteractor'
-import { ShellPresenter } from '../presenter/ShellPresenter'
+import { ConsolePresenter } from '../presenter/ConsolePresenter'
 import { IInputUseCase } from '../usecase/IInputUseCase'
 import { NodeSubscriber } from '../gateway/NodeSubscriber'
 import { YouTubeNodeClient } from '../gateway/YouTubeNodeClient'
@@ -11,7 +11,7 @@ export class ChromeController {
 
   constructor(apiKey: string) {
     this.inputUseCase = new SubscribeInteractor(
-      new ShellPresenter(),
+      new ConsolePresenter(),
       new JsSubscriber(new YouTubeJsClient(apiKey))
     )
   }

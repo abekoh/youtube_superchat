@@ -24,6 +24,7 @@ export class JsSubscriber extends EventEmitter implements ISubcriber {
       return false
     }
     this.liveChatId = liveChatId
+    console.log('succeeded to register')
     return true
   }
 
@@ -31,6 +32,7 @@ export class JsSubscriber extends EventEmitter implements ISubcriber {
     if (!this.liveChatId) {
       return false
     }
+    console.log('start subscriber')
     this.setObserver()
     this.emit('start')
     return true
@@ -63,7 +65,7 @@ export class JsSubscriber extends EventEmitter implements ISubcriber {
     if (this.observer) {
       clearInterval(this.observer)
     }
-    this.observer = window.setInterval(
+    this.observer = setInterval(
       () => this.fetchChatMessages(),
       this.intervalMilliSec
     )
