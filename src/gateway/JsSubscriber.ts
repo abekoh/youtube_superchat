@@ -4,10 +4,7 @@ import {
   LiveChatMessage,
   LiveChatMessageRequest,
 } from '../domain/model/IYouTubeClient'
-import * as Log4js from 'log4js'
 import { ISubcriber } from '../domain/model/ISubcriber'
-
-const logger = Log4js.getLogger()
 
 export class JsSubscriber extends EventEmitter implements ISubcriber {
   private liveChatId?: string
@@ -24,17 +21,14 @@ export class JsSubscriber extends EventEmitter implements ISubcriber {
       videoId
     )
     if (liveChatId === null) {
-      logger.error(`failed to get liveChatId: videoId=${videoId}`)
       return false
     }
     this.liveChatId = liveChatId
-    logger.debug(`liveChatId=${this.liveChatId}`)
     return true
   }
 
   public async start(): Promise<boolean> {
     if (!this.liveChatId) {
-      logger.error('liveChatId is not registered.')
       return false
     }
     this.setObserver()
@@ -51,7 +45,6 @@ export class JsSubscriber extends EventEmitter implements ISubcriber {
 
   private async fetchChatMessages() {
     if (!this.liveChatId) {
-      logger.error('liveChatId is not registered.')
       return
     }
     const request: LiveChatMessageRequest = {
@@ -60,13 +53,9 @@ export class JsSubscriber extends EventEmitter implements ISubcriber {
       maxResults: 2000,
     }
     const response = await this.youTubeClient.fetchComments(request)
-    logger.debug(`response=${JSON.stringify(response)}`)
     this.pageToken = response.pageToken || undefined
     this.intervalMilliSec = response.pollingIntervalMillis || 10000
     this.setObserver()
-    logger.debug(
-      `pageToken=${this.pageToken}, intervalMilliSec=${this.intervalMilliSec}`
-    )
     this.emit('consumeBatch', response.messages)
   }
 

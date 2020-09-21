@@ -5,10 +5,7 @@ import {
   LiveChatMessageResponse,
   LiveChatMessageRequest
 } from '../domain/model/IYouTubeClient'
-import * as Log4js from 'log4js'
 import { YouTubeClientUtils } from './YouTubeClientUtils'
-
-const logger = Log4js.getLogger()
 
 // sample: https://github.com/ChapC/rerun/blob/c6a4f67126945878c068e9544798346372842985/src/YoutubeAPI.ts
 export class YouTubeNodeClient implements IYouTubeClient {
@@ -22,7 +19,6 @@ export class YouTubeNodeClient implements IYouTubeClient {
   }
 
   public getLiveChatIdFromVideoId(videoId: string): Promise<string | null> {
-    logger.debug('start getLiveChatIdFromVideoId')
     return new Promise((resolve, reject) => {
       this.youtube.videos
         .list(
@@ -66,7 +62,6 @@ export class YouTubeNodeClient implements IYouTubeClient {
   public fetchComments(
     request: LiveChatMessageRequest
   ): Promise<LiveChatMessageResponse> {
-    logger.debug('start fetchComments')
     return new Promise((resolve, reject) => {
       this.youtube.liveChatMessages
         .list(

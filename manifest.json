@@ -12,5 +12,8 @@
     ],
     "persistent": false
   },
-  "options_page": "chrome/options.html"
+  "options_page": "chrome/options.html",
+  "permissions": [
+    "storage"
+  ]
 }

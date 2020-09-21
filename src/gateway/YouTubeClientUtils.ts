@@ -1,8 +1,5 @@
 import { LiveChatMessage } from '../domain/model/IYouTubeClient'
 import { youtube_v3 } from 'googleapis'
-import * as Log4js from 'log4js'
-
-const logger = Log4js.getLogger()
 
 // https://developers.google.com/youtube/v3/live/docs/liveChatMessages#snippet.type
 // TODO: 終了イベント
@@ -53,7 +50,6 @@ export class YouTubeClientUtils {
           tier: item.snippet?.superStickerDetails?.tier || undefined
         }
       default:
-        logger.debug(`unsupported event: ${item.snippet?.type}`)
         return null
     }
   }

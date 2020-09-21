@@ -1,8 +1,6 @@
 import { LiveChatMessage } from './IYouTubeClient'
 import BigNumber from 'bignumber.js'
-import * as Log4js from 'log4js'
 
-const logger = Log4js.getLogger()
 
 export interface SummarizedData {
   sumOfAmount: string
@@ -32,7 +30,6 @@ export class Summarizer {
       this.oldestPublishedAt = messages[0].publishedAt || undefined
     }
     // 最新の1件をlatestにset
-    logger.debug(messages[messages.length - 1])
     this.latestPublishedAt = messages[messages.length - 1].publishedAt || this.latestPublishedAt
     messages.forEach((message) => {
       this.allCount += 1
@@ -40,7 +37,6 @@ export class Summarizer {
         case 'SuperChat' || 'SuperSticker':
           // TODO: 円以外の対応
           if (this.currency !== 'JPY') {
-            logger.warn(`fetch a not JPY fund: ${JSON.stringify(message)}`)
             return
           }
           this.sumOfAmountBigNumber = this.sumOfAmountBigNumber.plus(
@@ -64,7 +60,7 @@ export class Summarizer {
         normalCount: this.normalCount,
         superCount: this.superCount,
         oldestPublishedAt: this.oldestPublishedAt,
-        latestPublishedAt: this.latestPublishedAt,
+        latestPublishedAt: this.latestPublishedAt
       })
     })
   }

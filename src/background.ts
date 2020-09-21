@@ -1,8 +1,4 @@
-import * as Log4js from 'log4js'
 import { ChromeController } from './controller/ChromeController'
-
-const logger = Log4js.getLogger()
-logger.level = 'info'
 
 chrome.storage.sync.get(['youTubeApiKey'], (items) => {
   const controller = new ChromeController(items.youTubeApiKey)
