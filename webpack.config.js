@@ -16,7 +16,15 @@ module.exports = {
       {
         test: /\.ts$/,
         loader: 'ts-loader',
+        exclude: /(YouTubeNodeClient\.ts|NodeSubscriber\.ts|ShellController\.ts|cmd\.ts)/,
       },
     ],
   },
+  node: {
+    fs: 'empty',
+    child_process: 'empty',
+    http2: 'empty',
+    net: 'empty',
+    tls: 'empty',
+  }
 }

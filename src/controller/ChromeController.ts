@@ -1,7 +1,10 @@
 import { SubscribeInteractor } from '../domain/application/SubscribeInteractor'
 import { ShellPresenter } from '../presenter/ShellPresenter'
-import { YouTubeNodeClient } from '../gateway/YouTubeNodeClient'
 import { IInputUseCase } from '../usecase/IInputUseCase'
+import { NodeSubscriber } from '../gateway/NodeSubscriber'
+import { YouTubeNodeClient } from '../gateway/YouTubeNodeClient'
+import { YouTubeJsClient } from '../gateway/YouTubeJsClient'
+import { JsSubscriber } from '../gateway/JsSubscriber'
 
 export class ChromeController {
   private inputUseCase: IInputUseCase
@@ -9,7 +12,7 @@ export class ChromeController {
   constructor(apiKey: string) {
     this.inputUseCase = new SubscribeInteractor(
       new ShellPresenter(),
-      new YouTubeNodeClient(apiKey)
+      new JsSubscriber(new YouTubeJsClient(apiKey))
     )
   }
 

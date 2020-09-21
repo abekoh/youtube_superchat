@@ -3,16 +3,17 @@ import {
   IYouTubeClient,
   LiveChatMessage,
   LiveChatMessageRequest,
-} from './IYouTubeClient'
+} from '../domain/model/IYouTubeClient'
 import * as Log4js from 'log4js'
+import { ISubcriber } from '../domain/model/ISubcriber'
 
 const logger = Log4js.getLogger()
 
-export class Subscriber extends EventEmitter {
+export class NodeSubscriber extends EventEmitter implements ISubcriber {
   private liveChatId?: string
   private pageToken?: string
   private intervalMilliSec: number = 10000
-  private observer?: NodeJS.Timeout
+  private observer?: any
 
   constructor(private youTubeClient: IYouTubeClient) {
     super()

@@ -4,7 +4,7 @@ import {
   LiveChatMessageRequest,
   LiveChatMessageResponse
 } from '../domain/model/IYouTubeClient'
-import fetch from 'node-fetch'
+// import fetch from 'node-fetch'
 import { youtube_v3 } from 'googleapis'
 import { YouTubeClientUtils } from './YouTubeClientUtils'
 
@@ -14,7 +14,7 @@ export class YouTubeJsClient implements IYouTubeClient {
 
   public getLiveChatIdFromVideoId(videoId: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
-      fetch(`https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${videoId}&key=${this.youTubeApiKey}`)
+      window.fetch(`https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${videoId}&key=${this.youTubeApiKey}`)
         .then((response) => {
           if (response.status !== 200) {
             reject(
@@ -57,7 +57,7 @@ export class YouTubeJsClient implements IYouTubeClient {
       url += `&maxResults=${request.maxResults}`
     }
     return new Promise((resolve, reject) => {
-      fetch(url)
+      window.fetch(url)
         .then((response) => {
           if (response.status !== 200) {
             reject(
