@@ -1,0 +1,54 @@
+{
+  "name": "superchat-monitor",
+  "version": "1.0.0",
+  "description": "Monitor Superchat in YouTube Live",
+  "main": "index.js",
+  "repository": "ssh://git@github.com/abekoh/youtube_superchat.git",
+  "author": "abekoh",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^14.6.4",
+    "bignumber.js": "^9.0.0",
+    "googleapis": "^59.0.0",
+    "log4js": "^6.3.0",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.122",
+    "@types/gapi": "^0.0.39",
+    "@types/jest": "^26.0.13",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "eslint": "^7.8.1",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.1",
+    "ts-jest": "^26.3.0",
+    "ts-loader": "^8.0.3",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "tsconfig.json"
+      }
+    },
+    "testMatch": [
+      "**/*.test.ts"
+    ]
+  }
+}

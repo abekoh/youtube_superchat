@@ -1,0 +1,16 @@
+{
+  "name": "YouTube SuperChat Summarizer",
+  "version": "1.0",
+  "description": "Summarize SuperChat(+etc) YouTube Live",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_popup": "chrome/popup.html"
+  },
+  "background": {
+    "scripts": [
+      "dist/background.js"
+    ],
+    "persistent": false
+  },
+  "options_page": "chrome/options.html"
+}
