@@ -17,9 +17,11 @@ export class JsSubscriber extends EventEmitter implements ISubcriber {
   }
 
   public async register(videoId: string): Promise<boolean> {
+    console.log(`videoId=${videoId}`)
     const liveChatId = await this.youTubeClient.getLiveChatIdFromVideoId(
       videoId
     )
+    console.log(`liveChatId=${liveChatId}`)
     if (liveChatId === null) {
       return false
     }

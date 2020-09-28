@@ -4,7 +4,7 @@ import { InputCommandMode } from './usecase/IInputUseCase'
 interface ChromeRequest {
   mode: InputCommandMode
   youTubeApiKey?: string
-  videoId?: string
+  url?: string
 }
 
 let controller: ChromeController | undefined = undefined
@@ -21,8 +21,8 @@ chrome.runtime.onMessage.addListener(
     }
     switch (request.mode) {
       case 'Register':
-        if (request.videoId) {
-          await controller.register(request.videoId)
+        if (request.url) {
+          await controller.register(request.url)
         }
         break
       case 'Start':

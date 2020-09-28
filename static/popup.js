@@ -2,10 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('register').addEventListener('click', () => {
     chrome.storage.sync.get(['youTubeApiKey'], (items) => {
       console.log('send Register message')
-      chrome.runtime.sendMessage({
-        mode: 'Register',
-        youTubeApiKey: items.youTubeApiKey,
-        videoId: 'xH3oA08wi9o'
+      chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+        console.log(tabs)
+        chrome.runtime.sendMessage({
+          mode: 'Register',
+          youTubeApiKey: items.youTubeApiKey,
+          url: tabs[0].url,
+        })
       })
     })
   })

@@ -1,5 +1,6 @@
 import { LiveChatMessage } from '../domain/model/IYouTubeClient'
-import { youtube_v3 } from 'googleapis'
+import { bigquery_v2, youtube_v3 } from 'googleapis'
+import { URLSearchParams } from 'url'
 
 // https://developers.google.com/youtube/v3/live/docs/liveChatMessages#snippet.type
 // TODO: 終了イベント
@@ -52,5 +53,18 @@ export class YouTubeClientUtils {
       default:
         return null
     }
+  }
+
+  public static youTubeUrlToVideoID(url: string): string {
+    const query: string = url.split("?")[1]
+    if (!query) return ""
+    let videoId = ""
+    query.split('&').forEach(value => {
+      const pair = value.split('=')
+      if (pair[0] == 'v') {
+        videoId = pair[1]
+      }
+    })
+    return videoId
   }
 }

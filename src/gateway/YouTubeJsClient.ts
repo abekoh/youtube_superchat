@@ -6,7 +6,7 @@ import {
 } from '../domain/model/IYouTubeClient'
 // import fetch from 'node-fetch'
 import { youtube_v3 } from 'googleapis'
-import { YouTubeClientUtils } from './YouTubeClientUtils'
+import { YouTubeClientUtils } from '../utils/YouTubeClientUtils'
 
 export class YouTubeJsClient implements IYouTubeClient {
   constructor(private youTubeApiKey: string) {

@@ -1,10 +1,9 @@
 import { SubscribeInteractor } from '../domain/application/SubscribeInteractor'
 import { ConsolePresenter } from '../presenter/ConsolePresenter'
 import { IInputUseCase } from '../usecase/IInputUseCase'
-import { NodeSubscriber } from '../gateway/NodeSubscriber'
-import { YouTubeNodeClient } from '../gateway/YouTubeNodeClient'
 import { YouTubeJsClient } from '../gateway/YouTubeJsClient'
 import { JsSubscriber } from '../gateway/JsSubscriber'
+import { YouTubeClientUtils } from '../utils/YouTubeClientUtils'
 
 export class ChromeController {
   private inputUseCase: IInputUseCase
@@ -16,8 +15,8 @@ export class ChromeController {
     )
   }
 
-  public async register(videoId: string) {
-    await this.inputUseCase.handle({ mode: 'Register', videoId: videoId })
+  public async register(url: string) {
+    await this.inputUseCase.handle({ mode: 'Register', videoId: YouTubeClientUtils.youTubeUrlToVideoID(url) })
   }
 
   public async start() {
