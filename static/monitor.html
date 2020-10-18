@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <title>Superchat Monitor</title>
+</head>
+<body>
+<div id="app">
+  <v-app>
+    <v-main>
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <div class="text-h5 text-center">
+              ￥{{sumOfAmount | addComma}}
+            </div>
+          </v-col>
+        </v-row>
+        <v-row dense>
+          <v-col cols="12">
+            <div class="text-body-2 text-center grey--text text--darken-1">
+              {{ date }} {{ fromTime }} - {{ toTime }}
+            </div>
+            <div class="text-body-2 text-center grey--text text--darken-1">
+              Normal: {{ normalCount | addComma }}, Superchat: {{ superChatCount | addComma }}
+            </div>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="10">
+            <v-list-item v-for="detail in details" :key="detail.tier" dense>
+              <v-list-item-content class="py-1">
+                <v-card :color="detail.backgroundColor" dense>
+                  <v-card-subtitle :class="getTextColor(detail) + ' px-1 py-1 text-center'">￥{{detail.sumOfAmount | addComma}} ({{ detail.count | addComma}})</v-card-subtitle>
+                </v-card>
+              </v-list-item-content>
+            </v-list-item>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    vuetify: new Vuetify(),
+    methods: {
+      getTextColor(detail) {
+        if (detail.textColor) {
+          return detail.textColor + "--text"
+        }
+        return "black--text"
+      }
+    },
+    filters: {
+      addComma(value) {
+        return value.toLocaleString()
+      }
+    },
+    data: () => {
+      return {
+        sumOfAmount: 28800,
+        date: "2020/10/18",
+        fromTime: "20:00:00",
+        toTime: "21:00:00",
+        normalCount: 2434,
+        superChatCount: 7,
+        details: [
+          {
+            tier: 7,
+            backgroundColor: '#e51717',
+            textColor: "white",
+            sumOfAmount: 20000,
+            count: 2
+          },
+          {
+            tier: 6,
+            backgroundColor: '#e5177e',
+            textColor: "white",
+            sumOfAmount: 5000,
+            count: 1
+          },
+          {
+            tier: 5,
+            backgroundColor: '#e57e17',
+            sumOfAmount: 2000,
+            count: 1
+          },
+          {
+            tier: 4,
+            backgroundColor: '#ffff80',
+            sumOfAmount: 1000,
+            count: 1
+          },
+          {
+            tier: 3,
+            backgroundColor: '#17e57e',
+            sumOfAmount: 500,
+            count: 1
+          },
+          {
+            tier: 2,
+            backgroundColor: '#80ffff',
+            sumOfAmount: 200,
+            count: 1
+          },
+          {
+            tier: 1,
+            backgroundColor: '#1717e5',
+            textColor: "white",
+            sumOfAmount: 100,
+            count: 1
+          },
+        ]
+      }
+    },
+  })
+</script>
+</body>
+</html>

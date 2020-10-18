@@ -15,6 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('start').addEventListener('click', () => {
     console.log('send Start message')
     chrome.runtime.sendMessage({ mode: 'Start' })
+    chrome.windows.create({
+      url: chrome.runtime.getURL("monitor.html"),
+      type: "popup",
+      focused: false,
+      width: 280,
+      height: 430
+    })
   })
   document.getElementById('stop').addEventListener('click', () => {
     console.log('send Stop message')
