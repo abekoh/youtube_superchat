@@ -9,6 +9,11 @@ new Vue({
       return 'black--text'
     },
   },
+  mounted: function () {
+    chrome.runtime.onMessage.addListener(function (message, sender, callback) {
+      console.log(`received: ${JSON.stringify(message)}`)
+    })
+  },
   filters: {
     addComma(value) {
       return value.toLocaleString()

@@ -4,13 +4,14 @@ import { IInputUseCase } from '../usecase/IInputUseCase'
 import { YouTubeJsClient } from '../gateway/YouTubeJsClient'
 import { JsSubscriber } from '../gateway/JsSubscriber'
 import { YouTubeClientUtils } from '../utils/YouTubeClientUtils'
+import { MessagePresenter } from '../presenter/MessagePresenter'
 
 export class ChromeController {
   private inputUseCase: IInputUseCase
 
   constructor(apiKey: string, tabId: number) {
     this.inputUseCase = new SubscribeInteractor(
-      new ConsolePresenter(),
+      new MessagePresenter(tabId),
       new JsSubscriber(new YouTubeJsClient(apiKey))
     )
   }

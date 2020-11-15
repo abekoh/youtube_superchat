@@ -1,7 +1,16 @@
 import { IOutputUsecase, OutputData } from '../usecase/IOutputUseCase'
 
-export class ConsolePresenter implements IOutputUsecase {
+export class MessagePresenter implements IOutputUsecase {
+  constructor(private tabId: number) {}
+
   public handle(data: OutputData) {
-    console.log(data)
+    const message = {
+      mode: 'Add',
+      sumOfAmount: data.sumOfAmount,
+      currency: data.currency,
+      amountDisplayString: data.amountDisplayString,
+    }
+    console.log(`send message to monitor: ${message}`)
+    chrome.tabs.sendMessage(this.tabId, message)
   }
 }

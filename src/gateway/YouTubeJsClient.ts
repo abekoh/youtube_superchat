@@ -2,28 +2,31 @@ import {
   IYouTubeClient,
   LiveChatMessage,
   LiveChatMessageRequest,
-  LiveChatMessageResponse
+  LiveChatMessageResponse,
 } from '../domain/model/IYouTubeClient'
 // import fetch from 'node-fetch'
 import { youtube_v3 } from 'googleapis'
 import { YouTubeClientUtils } from '../utils/YouTubeClientUtils'
 
 export class YouTubeJsClient implements IYouTubeClient {
-  constructor(private youTubeApiKey: string) {
-  }
+  constructor(private youTubeApiKey: string) {}
 
   public getLiveChatIdFromVideoId(videoId: string): Promise<string | null> {
     return new Promise((resolve, reject) => {
-      window.fetch(`https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${videoId}&key=${this.youTubeApiKey}`)
+      window
+        .fetch(
+          `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${videoId}&key=${this.youTubeApiKey}`
+        )
         .then((response) => {
           if (response.status !== 200) {
             reject(
               new Error(
-                `failed to fetch liveChatId: response.status=${response.status}`
+                `failed to fetch liveChatId: videoId=${videoId}, response.status=${response.status}`
               )
             )
           }
-          response.json()
+          response
+            .json()
             .then((responseData: youtube_v3.Schema$VideoListResponse) => {
               if (
                 typeof responseData.items === 'undefined' ||
@@ -33,14 +36,17 @@ export class YouTubeJsClient implements IYouTubeClient {
                 return
               }
               if (
-                typeof responseData.items[0].liveStreamingDetails === 'undefined' ||
+                typeof responseData.items[0].liveStreamingDetails ===
+                  'undefined' ||
                 typeof responseData.items[0].liveStreamingDetails
                   .activeLiveChatId === 'undefined'
               ) {
                 reject(new Error(`responseData is invalid`))
                 return
               }
-              resolve(responseData.items[0].liveStreamingDetails.activeLiveChatId)
+              resolve(
+                responseData.items[0].liveStreamingDetails.activeLiveChatId
+              )
             })
         })
     })
@@ -57,19 +63,21 @@ export class YouTubeJsClient implements IYouTubeClient {
       url += `&maxResults=${request.maxResults}`
     }
     return new Promise((resolve, reject) => {
-      window.fetch(url)
-        .then((response) => {
-          if (response.status !== 200) {
-            reject(
-              new Error(
-                `failed to fetch liveChatId: response.status=${response.status}`
-              )
+      window.fetch(url).then((response) => {
+        if (response.status !== 200) {
+          reject(
+            new Error(
+              `failed to fetch liveChatId: response.status=${response.status}`
             )
-          }
-          response.json()
-            .then((responseData: youtube_v3.Schema$LiveChatMessageListResponse) => {
+          )
+        }
+        response
+          .json()
+          .then(
+            (responseData: youtube_v3.Schema$LiveChatMessageListResponse) => {
               const messageResponse: LiveChatMessageResponse = { messages: [] }
-              messageResponse.pageToken = responseData.nextPageToken || undefined
+              messageResponse.pageToken =
+                responseData.nextPageToken || undefined
               messageResponse.pollingIntervalMillis =
                 responseData.pollingIntervalMillis || undefined
               messageResponse.totalResults =
@@ -90,9 +98,9 @@ export class YouTubeJsClient implements IYouTubeClient {
                 messageResponse.messages = messages
               }
               resolve(messageResponse)
-            })
-        })
+            }
+          )
+      })
     })
   }
-
 }
