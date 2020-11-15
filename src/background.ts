@@ -6,6 +6,7 @@ interface ChromeRequest {
   mode: InputCommandMode
   youTubeApiKey?: string
   url?: string
+  tabId?: number
 }
 
 let controller: ChromeController | undefined = undefined
@@ -13,9 +14,8 @@ let controller: ChromeController | undefined = undefined
 chrome.runtime.onMessage.addListener(
   async (request: ChromeRequest, sender, sendResponse) => {
     console.log(`receive message: ${JSON.stringify(request)}`)
-    console.log(`receive sender: ${JSON.stringify(sender)}`)
-    if (!controller && request.youTubeApiKey) {
-      controller = new ChromeController(request.youTubeApiKey, 1)
+    if (!controller && request.youTubeApiKey && request.tabId) {
+      controller = new ChromeController(request.youTubeApiKey, request.tabId)
     }
     if (!controller) {
       console.log('failed to set client')
