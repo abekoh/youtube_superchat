@@ -8,7 +8,7 @@ import { YouTubeClientUtils } from '../utils/YouTubeClientUtils'
 export class ChromeController {
   private inputUseCase: IInputUseCase
 
-  constructor(apiKey: string) {
+  constructor(apiKey: string, tabId: number) {
     this.inputUseCase = new SubscribeInteractor(
       new ConsolePresenter(),
       new JsSubscriber(new YouTubeJsClient(apiKey))
@@ -16,7 +16,10 @@ export class ChromeController {
   }
 
   public async register(url: string) {
-    await this.inputUseCase.handle({ mode: 'Register', videoId: YouTubeClientUtils.youTubeUrlToVideoID(url) })
+    await this.inputUseCase.handle({
+      mode: 'Register',
+      videoId: YouTubeClientUtils.youTubeUrlToVideoID(url),
+    })
   }
 
   public async start() {

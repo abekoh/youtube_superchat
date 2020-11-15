@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('register').addEventListener('click', () => {
     chrome.storage.sync.get(['youTubeApiKey'], (items) => {
       console.log('send Register message')
-      chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+      chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         console.log(tabs)
         chrome.runtime.sendMessage({
           mode: 'Register',
@@ -15,13 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('start').addEventListener('click', () => {
     console.log('send Start message')
     chrome.runtime.sendMessage({ mode: 'Start' })
-    chrome.windows.create({
-      url: chrome.runtime.getURL("monitor.html"),
-      type: "popup",
-      focused: false,
-      width: 280,
-      height: 430
-    })
+    chrome.windows.create(
+      {
+        url: chrome.runtime.getURL('monitor.html'),
+        type: 'popup',
+        focused: false,
+        width: 280,
+        height: 430,
+      },
+      (w) => {
+        console.log(w)
+      }
+    )
   })
   document.getElementById('stop').addEventListener('click', () => {
     console.log('send Stop message')
@@ -32,4 +37,3 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(`popup received: ${JSON.stringify(message)}`)
   })
 })
-

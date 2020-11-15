@@ -7,6 +7,7 @@ import { ISubcriber } from '../model/ISubcriber'
 
 export class SubscribeInteractor implements IInputUseCase {
   private summarizer = new Summarizer()
+
   constructor(
     private outputUseCase: IOutputUsecase,
     private subscriber: ISubcriber

@@ -1,5 +1,6 @@
 import { ChromeController } from './controller/ChromeController'
 import { InputCommandMode } from './usecase/IInputUseCase'
+import tabId = chrome.devtools.inspectedWindow.tabId
 
 interface ChromeRequest {
   mode: InputCommandMode
@@ -12,8 +13,9 @@ let controller: ChromeController | undefined = undefined
 chrome.runtime.onMessage.addListener(
   async (request: ChromeRequest, sender, sendResponse) => {
     console.log(`receive message: ${JSON.stringify(request)}`)
+    console.log(`receive sender: ${JSON.stringify(sender)}`)
     if (!controller && request.youTubeApiKey) {
-      controller = new ChromeController(request.youTubeApiKey)
+      controller = new ChromeController(request.youTubeApiKey, 1)
     }
     if (!controller) {
       console.log('failed to set client')
@@ -35,6 +37,8 @@ chrome.runtime.onMessage.addListener(
         console.log(`unsupported mode: ${request.mode}`)
     }
     console.log('send as tabs')
-    chrome.tabs.sendMessage(sender.tab?.id || 0, { result: `succeeded: ${request.mode}` })
+    chrome.tabs.sendMessage(sender.tab?.id || 0, {
+      result: `succeeded: ${request.mode}`,
+    })
   }
 )
